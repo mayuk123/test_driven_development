@@ -21,8 +21,38 @@ jobs:
           name: Run Tests
           command: pytest
 
+  build:
+    docker:
+      - image: python:3.8
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: |
+            if [ -f requirements.txt ]; then
+              pip install -r requirements.txt
+            else
+              echo "No requirements.txt file found. Skipping dependency installation."
+            fi
+      - run:
+          name: Install pytest
+          command: pip install pytest
+      - run:
+          name: Build Docker Image
+          command: |
+            docker build -t test_driven_development:latest .
+      - run:
+          name: Push Docker Image to Docker Hub
+          command: |
+            echo "Meridian#123" | docker login -u "mayukyadav" --password-stdin
+            docker tag test_driven_development:latest "mayukyadav/test_driven_development:latest"
+            docker push "mayukyadav/test_driven_development:latest"
+
 workflows:
   version: 2
-  test:
+  build:
     jobs:
       - test
+      - build:
+          requires:
+            - test
