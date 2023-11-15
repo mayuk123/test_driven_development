@@ -23,7 +23,7 @@ jobs:
 
   build:
     docker:
-      - image: circleci/python:3.8  # This image includes both Python and Docker
+      - image: python:3.8
     steps:
       - checkout
       - run:
@@ -40,13 +40,12 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            docker build -t test_driven_development:latest .
+            docker build -t mayukyadav/test_driven_development:tdd_code .
       - run:
           name: Push Docker Image to Docker Hub
           command: |
-            echo "Meridian#123" | docker login -u "mayukyadav" --password-stdin
-            docker tag test_driven_development:latest "mayukyadav/test_driven_development:latest"
-            docker push "mayukyadav/test_driven_development:latest"
+            echo "Meridian#123" | docker login -u "Meridian#123" --password-stdin
+            docker push "mayukyadav/test_driven_development:tdd_code"
 
 workflows:
   version: 2
