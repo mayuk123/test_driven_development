@@ -69,3 +69,15 @@ def add_movie_with_invalid_input(self, matrix):
     for (row, col), value in matrix.data.items():
         # Set non-zero values from the new matrix into the current matrix
         self.set(row, col, value)
+
+def main():
+    matrix = SparseMatrix()
+    matrix.set(0, 0, 2)
+    matrix.set(1, 1, 3)
+    vector = [1, 2]
+    recommendations = matrix.recommend(vector)
+    print(recommendations)
+
+if __name__ == "__main__":
+    main()
+
