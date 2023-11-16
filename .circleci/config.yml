@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   test:
     docker:
-      - image: python:3.8
+      - image: circleci/python:3.8-buster
     steps:
       - setup_remote_docker
       - checkout
@@ -24,7 +24,7 @@ jobs:
 
   build:
     docker:
-      - image: python:3.8
+      - image: circleci/python:3.8-buster
     steps:
       - setup_remote_docker
       - checkout
@@ -32,8 +32,13 @@ jobs:
           name: Check Docker Version
           command: docker --version
       - run:
+          name: Install Docker
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y docker.io
+      - run:
           name: Display PATH
-          command: echo '$HOME/.local/bin:$PATH' >> $GITHUB_ENV
+          command: echo $PATH
       - run:
           name: Install Dependencies
           command: |
