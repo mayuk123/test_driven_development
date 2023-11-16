@@ -32,6 +32,9 @@ jobs:
           name: Check Docker Version
           command: docker --version
       - run:
+          name: Display PATH
+          command: echo $PATH
+      - run:
           name: Install Dependencies
           command: |
             if [ -f requirements.txt ]; then
