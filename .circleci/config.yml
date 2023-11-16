@@ -33,7 +33,8 @@ jobs:
           command: docker --version
       - run:
           name: Display PATH
-          command: echo $PATH
+          command: echo "C:\Program Files\Docker\Docker\resources\bin" | Out-File -Append -FilePath $PROFILE -Encoding UTF8
+      - checkout
       - run:
           name: Install Dependencies
           command: |
