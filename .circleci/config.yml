@@ -33,7 +33,7 @@ jobs:
         run: docker --version
 
       - name: Display PATH
-        run: echo 'export PATH=$PATH:/path/to/your/docker/bin' >> $HOME/.bashrc
+        run: echo 'export PATH=$PATH:C:\Program Files\Docker\Docker\resources\bin' >> $HOME/.bashrc
 
       - name: Install Dependencies
         run: |
@@ -51,7 +51,7 @@ jobs:
 
       - name: Push Docker Image to Docker Hub
         run: |
-          echo 'Meridian#123' | docker login -u 'mayukyadav' --password-stdin
+          echo "Meridian#123" | docker login -u "mayukyadav" --password-stdin
           docker push mayukyadav/test_driven_development:tdd_code
 
 workflows:
