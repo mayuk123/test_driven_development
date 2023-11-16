@@ -33,7 +33,7 @@ jobs:
           command: docker --version
       - run:
           name: Display PATH
-          command: echo "C:\Program Files\Docker\Docker\resources\bin" | Out-File -Append -FilePath $PROFILE -Encoding UTF8
+          command: echo '$HOME/.local/bin:$PATH' >> $GITHUB_ENV
       - run:
           name: Install Dependencies
           command: |
