@@ -51,7 +51,7 @@ jobs:
 
       - name: Push Docker Image to Docker Hub
         run: |
-          echo 'Meridian#123' | docker login -u "mayukyadav" --password-stdin
+          echo 'Meridian#123' | docker login -u 'mayukyadav' --password-stdin
           docker push mayukyadav/test_driven_development:tdd_code
 
 workflows:
