@@ -6,7 +6,7 @@ jobs:
       - image: circleci/python:3.8-buster
     steps:
       - setup_remote_docker
-      - checkout
+      - checkout             #
       - run:
           name: Install Dependencies
           command: |
@@ -59,25 +59,11 @@ jobs:
             echo "Meridian#123" | docker login -u "mayukyadav" --password-stdin
             docker push mayukyadav/test_driven_development:tdd_code
 
-  deploy:
-    docker:
-      - image: circleci/python:3.8-buster
-    steps:
-      - setup_remote_docker
-      - checkout
-      - run:
-          name: Deploy to Production (Replace with your deployment steps)
-          command: |
-            # Add deployment steps here
-
 workflows:
   version: 2
-  build:
+  build_and_deploy:
     jobs:
       - test
       - build:
           requires:
             - test
-      - deploy:
-          requires:
-            - build
