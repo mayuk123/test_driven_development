@@ -8,6 +8,12 @@ jobs:
       - setup_remote_docker  # This command ensures Docker is installed in the CircleCI environment
       - checkout
       - run:
+          name: Display PATH
+          command: echo $PATH  # Add this step to echo the PATH for debugging
+      - run:
+          name: Check Docker Version
+          command: docker --version  # Add this step to check Docker version
+      - run:
           name: Install Dependencies
           command: |
             if [ -f requirements.txt ]; then
