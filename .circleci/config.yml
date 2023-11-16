@@ -29,9 +29,6 @@ jobs:
       - setup_remote_docker
       - checkout
       - run:
-          name: Check Docker Version
-          command: docker --version
-      - run:
           name: Install Dependencies
           command: |
             if [ -f requirements.txt ]; then
