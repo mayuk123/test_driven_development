@@ -1,42 +1,64 @@
 version: 2.1
 
 jobs:
+  test:
+    docker:
+      - image: python:3.8
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: |
+            if [ -f requirements.txt ]; then
+              pip install -r requirements.txt
+            else
+              echo "No requirements.txt file found. Skipping dependency installation."
+            fi
+      - run:
+          name: Install pytest
+          command: pip install pytest
+      - run:
+          name: Run Tests
+          command: pytest
+
   build:
     docker:
-      - image: circleci/python:3.8
-
-    working_directory: ~/repo
-
+      - image: python:3.8
     steps:
+      - setup_remote_docker
       - checkout
-
       - run:
-          name: Install dependencies
+          name: Check Docker Version
+          command: docker --version
+      - run:
+          name: Display PATH
+          command: echo '$HOME/.local/bin:$PATH' >> $GITHUB_ENV
+      - run:
+          name: Install Dependencies
           command: |
-            sudo pip install pytest
-
+            if [ -f requirements.txt ]; then
+              pip install -r requirements.txt
+            else
+              echo "No requirements.txt file found. Skipping dependency installation."
+            fi
       - run:
-          name: Run tests
-          command: |
-            pytest
-
+          name: Install pytest
+          command: pip install pytest
       - run:
-          name: Build Docker image
-          command: |
-            docker build -t mayukyadav/tdd_code:latest .
-
+          name: Build Docker Image
+          command: docker build -t mayukyadav/test_driven_development:tdd_code .
       - run:
-          name: Push Docker image to Docker Hub
+          name: Push Docker Image to Docker Hub
           command: |
             echo "Meridian#123" | docker login -u "mayukyadav" --password-stdin
-            docker push mayukyadav/tdd_code:latest
+            docker push mayukyadav/test_driven_development:tdd_code
 
 workflows:
   version: 2
-  build_and_push:
+  build:
     jobs:
+      - test
       - build:
-          filters:
-            branches:
-              only:
-                - main  # Adjust to your main branch name
+          requires:
+            - test
