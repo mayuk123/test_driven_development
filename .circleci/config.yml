@@ -5,7 +5,7 @@ jobs:
     docker:
       - image: python:3.8
     steps:
-      - setup_remote_docker  # This command ensures Docker is installed in the CircleCI environment
+      - setup_remote_docker
       - checkout
       - run:
           name: Install Dependencies
@@ -26,14 +26,11 @@ jobs:
     docker:
       - image: python:3.8
     steps:
-      - setup_remote_docker  # Ensure Docker is installed in the CircleCI environment
+      - setup_remote_docker
       - checkout
       - run:
-          name: Display PATH
-          command: echo $PATH  # Add this step to echo the PATH for debugging
-      - run:
           name: Check Docker Version
-          command: docker --version  # Add this step to check Docker version
+          command: docker --version
       - run:
           name: Install Dependencies
           command: |
@@ -47,8 +44,7 @@ jobs:
           command: pip install pytest
       - run:
           name: Build Docker Image
-          command: |
-            docker build -t mayukyadav/test_driven_development:tdd_code .
+          command: docker build -t mayukyadav/test_driven_development:tdd_code .
       - run:
           name: Push Docker Image to Docker Hub
           command: |
