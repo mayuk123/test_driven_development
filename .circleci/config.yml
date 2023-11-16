@@ -8,6 +8,11 @@ jobs:
       - setup_remote_docker  # This command ensures Docker is installed in the CircleCI environment
       - checkout
       - run:
+          name: Install Docker
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y docker.io
+      - run:
           name: Display PATH
           command: echo $PATH  # Add this step to echo the PATH for debugging
       - run:
@@ -34,6 +39,11 @@ jobs:
     steps:
       - setup_remote_docker  # Ensure Docker is installed in the CircleCI environment
       - checkout
+      - run:
+          name: Install Docker
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y docker.io
       - run:
           name: Display PATH
           command: echo $PATH  # Add this step to echo the PATH for debugging
