@@ -5,54 +5,54 @@ jobs:
     docker:
       - image: python:3.8
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Install Dependencies
-        run: |
-          if [ -f requirements.txt ]; then
-            pip install -r requirements.txt
-          else
-            echo "No requirements.txt file found. Skipping dependency installation."
-          fi
-
-      - name: Install pytest
-        run: pip install pytest
-
-      - name: Run Tests
-        run: pytest
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: |
+            if [ -f requirements.txt ]; then
+              pip install -r requirements.txt
+            else
+              echo "No requirements.txt file found. Skipping dependency installation."
+            fi
+      - run:
+          name: Install pytest
+          command: pip install pytest
+      - run:
+          name: Run Tests
+          command: pytest
 
   build:
     docker:
       - image: python:3.8
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Check Docker Version
-        run: docker --version
-
-      - name: Display PATH
-        run: echo 'export PATH=$PATH:C:\Program Files\Docker\Docker\resources\bin' >> $HOME/.bashrc
-
-      - name: Install Dependencies
-        run: |
-          if [ -f requirements.txt ]; then
-            pip install -r requirements.txt
-          else
-            echo "No requirements.txt file found. Skipping dependency installation."
-          fi
-
-      - name: Install pytest
-        run: pip install pytest
-
-      - name: Build Docker Image
-        run: docker build -t mayukyadav/test_driven_development:tdd_code .
-
-      - name: Push Docker Image to Docker Hub
-        run: |
-          echo "Meridian#123" | docker login -u "mayukyadav" --password-stdin
-          docker push mayukyadav/test_driven_development:tdd_code
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Check Docker Version
+          command: docker --version
+      - run:
+          name: Display PATH
+          command: echo "C:\Program Files\Docker\Docker\resources\bin" | Out-File -Append -FilePath $PROFILE -Encoding UTF8
+      - run:
+          name: Install Dependencies
+          command: |
+            if [ -f requirements.txt ]; then
+              pip install -r requirements.txt
+            else
+              echo "No requirements.txt file found. Skipping dependency installation."
+            fi
+      - run:
+          name: Install pytest
+          command: pip install pytest
+      - run:
+          name: Build Docker Image
+          command: docker build -t mayukyadav/test_driven_development:tdd_code .
+      - run:
+          name: Push Docker Image to Docker Hub
+          command: |
+            echo "Meridian#123" | docker login -u "mayukyadav" --password-stdin
+            docker push mayukyadav/test_driven_development:tdd_code
 
 workflows:
   version: 2
